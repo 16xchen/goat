@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+
+<style>
+
+body {
+  
+}
+
+</style>
+<body>
+<script src="//d3js.org/d3.v4.0.0-alpha.22.min.js"></script>
+<script>
+
+var xdata=[]
+var xnum=0;
+var width=800;
+var height=1000;
+for (var i=0;i<width*40;i++){
+  if(xnum>=300)
+    xnum=0;
+  xnum++;
+  xdata.push(xnum)
+}
+
+var width = 960,
+    height = 500;
+
+var svg = d3.select("body").append("svg")
+    .attr("width", width)
+    .attr("height", height);
+
+var gradient = svg.append("defs")
+  .append("linearGradient")
+    .attr("id", "gradient")
+    .attr("x1", "0%")
+    .attr("y1", "0%")
+    .attr("x2", "100%")
+    .attr("y2", "100%")
+    .attr("spreadMethod", "pad");
+
+gradient.append("stop")
+    .attr("offset", "0%")
+    .attr("stop-color", "red")
+    .attr("stop-opacity", 1);
+
+gradient.append("stop")
+    .attr("offset", "100%")
+    .attr("stop-color", "teal")
+    .attr("stop-opacity", 1);
+    
+    
+var defs = svg.append('svg:defs');
+            defs.append('svg:pattern')
+                .attr('id', 'tile-ww')
+                .attr('patternUnits', 'userSpaceOnUse')
+                .attr('width', width)
+                .attr('height', height)
+                .append('svg:image')
+                .attr('xlink:href', 'https://www.sciencenews.org/sites/default/files/main/blogposts/sci_Goats_Go_Inspecting_wikimedia_commons.jpg')
+                .attr('x', 0)
+                .attr('y', 0)
+                .attr('width', width)
+                .attr('height', height);
+                
+svg.append("rect")
+    .attr("width", width)
+    .attr("height", height)
+    .style("fill", "url(#tile-ww)");
+
+
+var s=0;
+var c=0;
+var circle =svg.selectAll("circle")
+                .data(xdata)
+                .enter()
+                .append("circle")
+                .attr("r", 5)
+                .attr("cx", function(d){
+                  return d*8;})
+                .attr("cy", function(d, i){
+                  
+                  if (i%300==0){
+                  s+=8;
+                    }
+                  return s;
+                                    })
+                .style("fill", "black")
+                .style("stroke", "black")
+                .style("fill-opacity", "100%")
+                .on("mouseover", mouseover);
+                
+
+function mouseover(d) {
+  d3.select(this)
+      .remove();
+}
+
+
+</script>
